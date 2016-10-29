@@ -12,7 +12,7 @@ class Coord {
 
 };
 
-int dist(Coord from, Coord to)
+double dist(Coord from, Coord to)
 {
   return std::sqrt(std::pow(std::abs(from.latitude-to.latitude),2.0) + std::pow(std::abs(from.longitude-to.longitude),2.0));
 }
@@ -47,16 +47,37 @@ int main()
       int best = -1;
       for (int j = 0; j < len; j++) {
 
-        /* if places[j] is not used and best is not
-        initilized or distance between i-1 and j < i-1 and best */
-        if(used[j]==false && (best == -1 || dist(places[tour[i-1]],places[j]) < dist(places[tour[i-1]],places[best]))) {
+        std::cerr << "i: " << i << " j: " << j << " best index: " << best << std::endl;
+        std::cerr << "places[best]: " << places[best].latitude << "," << places[best].longitude << std::endl;
+        std::cerr << "old best: " << dist(places[tour[i]],places[best]) << std::endl;
+        std::cerr << "new best: " << dist(places[tour[i]],places[j]) << std::endl;
+
+        if(j==i){
+          std::cerr << "j==i" << std::endl;
+          //do nothing
+        }
+
+        /* base case, we have not used the node j so we add it as the best so far */
+        else if(used[j]==false && best == -1){
+          std::cerr << "used[j]==false && best==-1" << std::endl;
           best = j;
-        }
-        //std::cerr << i << " " << j << " " << std::endl;
-        tour[i] = best;
-        if(best!=-1){
           used[best] = true;
+          tour[i] = best;
+          std::cerr << "best: " << best << " used[best] " << used[best] << " tour[i]" << tour[i] << std::endl;
         }
+
+        /* if dist(i,j) < dist(i,best) then best = j */
+        else if(dist(places[tour[i]],places[j]) < dist(places[tour[i]],places[best])) {
+          std::cerr << "new best < old best" << std::endl;
+          std::cerr << "old best: " << dist(places[tour[i]],places[best]) << std::endl;
+          std::cerr << "new best: " << dist(places[tour[i]],places[j]) << std::endl;
+          used[best] = false;
+          best = j;
+          used[best] = true;
+          tour[i] = best;
+        }
+
+
       }
   }
 
