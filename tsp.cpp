@@ -24,7 +24,7 @@ int routeDist(std::vector<Coord>& places, std::vector<int>& tour, int len)
 {
 	int sum = 0;
 	for(int i = 0; i < len-1; i++){
-		sum += sqrt(pow(abs(places[tour[i]].latitude-places[tour[i+1]].latitude),2.0) + pow(sabs(places[tour[i]].longitude-places[tour[i+1]].longitude),2.0));
+		sum += sqrt(pow(abs(places[tour[i]].latitude-places[tour[i+1]].latitude),2.0) + pow(abs(places[tour[i]].longitude-places[tour[i+1]].longitude),2.0));
 	}
 	return sum;
 }
@@ -66,9 +66,9 @@ int main()
       std::cin >> places[i].longitude;
   }
 
-  for (int i = 0; i < len; i++) {
-      std::cerr << places[i].latitude << " " << places[i].longitude << std::endl;
-  }
+  //for (int i = 0; i < len; i++) {
+    //  std::cerr << places[i].latitude << " " << places[i].longitude << std::endl;
+  //}
 
 
   //std::cerr << "Testing the distance function " << dist(places[1], places[4]) << std::endl;
@@ -98,7 +98,7 @@ int main()
 	int best = routeDist(places, tour, len);
 	for(int i = 0; i < len-1; i++){
 		for(int k = i+1; k < len; k++){
-		if((std::clock() - c_start) / (double)CLOCKS_PER_SEC >= (double)1.970) goto answer;
+		if((std::clock() - c_start) / (double)CLOCKS_PER_SEC > (double)1.970) goto answer;
 		std::vector<int> newtour(twoSwap(i, k, len, tour));
 		int newBest = routeDist(places, newtour, len);
 		if(newBest < best){
