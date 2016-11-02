@@ -19,6 +19,8 @@ public:
     int name;
     double x;
     double y;
+    Coord* next;
+    Coord* prev;
 
 };
 
