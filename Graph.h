@@ -9,6 +9,7 @@
 #ifndef Graph_h
 #define Graph_h
 
+#include <iostream>
 #include <cmath>
 #include <vector>
 #include <limits>
@@ -51,6 +52,10 @@ double dist(Edge a)
     return std::sqrt(std::pow(std::abs(a.from.x-a.to.x),2.0) + std::pow(std::abs(a.from.y-a.to.y),2.0));
 }
 
+double dist(Coord first, Coord second, Coord third, Coord fourth){
+    return dist(first, second)+dist(third, fourth);
+}
+
 int findClosestVertex(Coord u, std::vector<Coord> V){
     
     int bestDist = std::numeric_limits<int>::max();
@@ -75,21 +80,22 @@ double calculateTotalDistance(std::vector<Edge> path){
     return ret;
 }
 
-void swap2(Edge& first, Edge& second){
+void swap2(std::vector<Edge> &edges, int i , int j){
     
-    Edge newFirst;
-    Edge newSecond;
+    Edge a = edges[i];
+    Edge b = edges[j];
+    
+    edges[i].to = edges[j].from;
+    
+}
 
-    newFirst.from = first.from;
-    newFirst.to = second.from;
-    newFirst.cost = dist(first.from, second.from);
-    
-    newSecond.from = first.to;
-    newSecond.to = second.to;
-    newSecond.cost = dist(first.to, second.to);
-    
-    first = newFirst;
-    second = newSecond;
+void removeCoord(Coord remove, std::vector<Coord>& list){
+    for(int i = 0; i < list.size(); i++){
+        if(list[i].name==remove.name){
+            list.erase(list.begin()+i);
+            return;
+        }
+    }
 }
 
 
